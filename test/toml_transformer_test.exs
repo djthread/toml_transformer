@@ -22,6 +22,8 @@ defmodule TomlTransformerTest do
   a_dynamic_number = "${SOME_NUMBER | default:4 }"
   a_dynamic_number2 = "${SOME_NUMBER}"
   string_with_default = "${SOME_STRING | default: HELLO}"
+  a_truthy_thing = "(bool)true"
+  a_falsy_thing = "(bool)false"
   """
 
   test "basic" do
@@ -52,6 +54,8 @@ defmodule TomlTransformerTest do
       assert "8" == get_in(conf, [:foo, :a_dynamic_number])
       assert "8" == get_in(conf, [:foo, :a_dynamic_number2])
       assert "HAHA" == get_in(conf, [:foo, :string_with_default])
+      assert true == get_in(conf, [:foo, :a_truthy_thing])
+      assert false == get_in(conf, [:foo, :a_falsy_thing])
     end)
   end
 

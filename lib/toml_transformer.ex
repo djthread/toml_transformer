@@ -23,7 +23,9 @@ defmodule TomlTransformer do
   end
 
   def transform(_, _key, str) when is_binary(str) do
-    resolve_sys_env_vars(str)
+    str
+    |> resolve_sys_env_vars()
+    |> coerce_types()
   end
 
   def transform(_, _k, val) do
@@ -60,6 +62,10 @@ defmodule TomlTransformer do
       filter(System.get_env(v) || "", filters)
     end)
   end
+
+  defp coerce_types("(bool)false"), do: false
+  defp coerce_types("(bool)true"), do: true
+  defp coerce_types(other), do: other
 
   # defp filter(value, ["int" | tail]) do
   #   case Integer.parse(value) do
