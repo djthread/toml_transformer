@@ -65,14 +65,8 @@ defmodule TomlTransformer do
 
   defp coerce_types("(bool)false"), do: false
   defp coerce_types("(bool)true"), do: true
+  defp coerce_types("(atom)" <> string), do: String.to_atom(string)
   defp coerce_types(other), do: other
-
-  # defp filter(value, ["int" | tail]) do
-  #   case Integer.parse(value) do
-  #     {int, ""} -> filter(int, tail)
-  #     _ -> filter(0, tail)
-  #   end
-  # end
 
   defp filter(value, ["default:" <> default | tail]) do
     val = if value == "", do: String.trim(default), else: value

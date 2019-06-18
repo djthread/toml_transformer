@@ -24,6 +24,7 @@ defmodule TomlTransformerTest do
   string_with_default = "${SOME_STRING | default: HELLO}"
   a_truthy_thing = "(bool)true"
   a_falsy_thing = "(bool)false"
+  an_atom_thing = "(atom)hello_world"
   """
 
   test "basic" do
@@ -56,6 +57,7 @@ defmodule TomlTransformerTest do
       assert "HAHA" == get_in(conf, [:foo, :string_with_default])
       assert true == get_in(conf, [:foo, :a_truthy_thing])
       assert false == get_in(conf, [:foo, :a_falsy_thing])
+      assert :hello_world == get_in(conf, [:foo, :an_atom_thing])
     end)
   end
 
